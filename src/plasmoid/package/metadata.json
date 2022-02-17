@@ -1,0 +1,26 @@
+{
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "mail@genda.life",
+                "Name": "Mikhail Zolotukhin"
+            }
+        ],
+        "Category": "Windows and Tasks",
+        "Description": "Plasmoid for controlling Bismuth",
+        "EnabledByDefault": true,
+        "Icon": "bismuth",
+        "Id": "org.kde.plasma.bismuth",
+        "License": "MIT",
+        "Name": "Bismuth",
+        "ServiceTypes": [
+            "Plasma/Applet"
+        ],
+        "Version": "1.0.0",
+        "Website": "github.com/Bismuth-Forge/bismuth"
+    },
+    "X-Plasma-API": "declarativeappletscript",
+    "X-Plasma-MainScript": "ui/main.qml",
+    "X-Plasma-NotificationArea": "true",
+    "X-Plasma-NotificationAreaCategory": "SystemServices"
+}

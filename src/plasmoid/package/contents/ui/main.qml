@@ -9,12 +9,22 @@ import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.plasma.plasmoid 2.0
 import org.kde.kquickcontrolsaddons 2.0
 
+import org.kde.plasma.private.bismuth 1.0
+
 Item {
     id: root
-    property bool isEnabled: true // If Bismuth is enabled in the system settings
+//     property bool isEnabled: true // If Bismuth is enabled in the system settings
     property int currentLayout: 0 // Index of the the current layout
     property int lastLayout: 0 // Index of the the last layout
     readonly property int floatingLayout: 7 // Index of the the floating layout
+
+    Monitor {
+        id: monitor
+    }
+
+    Controller {
+        id: controller
+    }
 
     // TODO: Cannot use i18n() here.
     ListModel {
@@ -53,7 +63,7 @@ Item {
         }
     }
 
-    Plasmoid.status: isEnabled ? PlasmaCore.Types.ActiveStatus : PlasmaCore.Types.Hidden
+    Plasmoid.status: monitor.isEnabled ? PlasmaCore.Types.ActiveStatus : PlasmaCore.Types.Hidden
     Plasmoid.toolTipMainText: i18n("Bismuth")
     Plasmoid.toolTipSubText: layoutModel.get(currentLayout).name
     Plasmoid.icon: currentLayout !== floatingLayout ? "bismuth-monochrome" : "bismuth-monochrome-disabled"
@@ -73,8 +83,10 @@ Item {
                     if (currentLayout !== floatingLayout) {
                         lastLayout = currentLayout;
                         currentLayout = floatingLayout;
+                        controller.toggle_layout(currentLayout);
                     } else {
                         currentLayout = lastLayout;
+                        controller.toggle_layout(currentLayout);
                     }
                 }
             }
@@ -83,14 +95,18 @@ Item {
                     if (wheel.angleDelta.y < 0) {
                         if (currentLayout < layoutModel.count - 1) {
                             currentLayout++;
+                            controller.next_layout();
                         } else if (plasmoid.configuration.loopOver) {
                             currentLayout = 0;
+                            controller.toggle_layout(0);
                         }
                     } else {
                         if (currentLayout > 0) {
                             currentLayout--;
+                            controller.prev_layout();
                         } else if (plasmoid.configuration.loopOver) {
                             currentLayout = layoutModel.count - 1;
+                            controller.toggle_layout(layoutModel.count - 1);
                         }
                     }
                 }
@@ -101,34 +117,42 @@ Item {
     // Functions corresponding to the registered menu actions
     function action_setTileLayout() {
         currentLayout = 0;
+        controller.toggle_layout(currentLayout);
     }
 
     function action_setMonocleLayout() {
         currentLayout = 1;
+        controller.toggle_layout(currentLayout);
     }
 
     function action_setColumnLayout() {
         currentLayout = 2;
+        controller.toggle_layout(currentLayout);
     }
 
     function action_setSpiralLayout() {
         currentLayout = 3;
+        controller.toggle_layout(currentLayout);
     }
 
     function action_setSpreadLayout() {
         currentLayout = 4;
+        controller.toggle_layout(currentLayout);
     }
 
     function action_setStairLayout() {
         currentLayout = 5;
+        controller.toggle_layout(currentLayout);
     }
 
     function action_setQuarterLayout() {
         currentLayout = 6;
+        controller.toggle_layout(currentLayout);
     }
 
     function action_setFloatingLayout() {
         currentLayout = 7;
+        controller.toggle_layout(currentLayout);
     }
 
     function action_openSettings() {

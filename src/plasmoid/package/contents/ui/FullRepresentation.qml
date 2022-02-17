@@ -23,8 +23,10 @@ PlasmaComponents.Page {
                 if (currentLayout !== floatingLayout) {
                     lastLayout = currentLayout;
                     currentLayout = floatingLayout;
+                    controller.toggle_layout(currentLayout);
                 } else {
                     currentLayout = lastLayout;
+                    controller.toggle_layout(currentLayout);
                 }
             }
         }
@@ -53,7 +55,10 @@ PlasmaComponents.Page {
             height: width
             checkable: true
             checked: model.index === root.currentLayout
-            onClicked: root.currentLayout = model.index
+            onClicked: {
+                root.currentLayout = model.index
+                controller.toggle_layout(model.index);
+            }
             Controls.ButtonGroup.group: buttonGroup
             PlasmaComponents.ToolTip { text: model.name }
 
